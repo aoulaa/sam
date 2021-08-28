@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Searching</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+    <div class="container">
+                <form  action="{% url 'search_page' %}" method="get">
+                    <div class="columns  is-centered is-flex is-gapless is-centered">
+                        <div class="column">
+
+                            <label>
+                                <input class="input is-5" name="search" type="text" placeholder="Search...">
+                            </label>
+                        </div>
+                        <div class="column">
+                            <input class="button is-success" type='submit' value="Search Product">
+                        </div>
+                    </div>
+            </form>
+
+            <div class="container mt-5">
+                <ul>
+                    {% for product in product_list %}
+                        <li>
+                            {{ product.title }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <br/>
+
+                <div class="pagination" role="navigation" aria-label="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a class="pagination-previous" href="?search={{ request.GET.search }}&page=1">&laquo; first</a>
+                            <a class="pagination-previous" href="?search={{ request.GET.search }}&page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="pagination-link is-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a class="pagination-next" href="?search={{ request.GET.search }}&page={{ page_obj.next_page_number }}">next</a>
+                            <a class="pagination-previous"  href="?search={{ request.GET.search }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+</html>
